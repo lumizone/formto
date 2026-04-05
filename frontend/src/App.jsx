@@ -45,30 +45,63 @@ function DashboardLayout() {
 }
 
 // Checks setup-status and redirects to /setup if no users exist yet
+const SETUP_RETRY_DELAYS = [1000, 2000, 4000]
+
 function SetupGuard({ children }) {
   const [checking, setChecking] = useState(true)
-  const [needsSetup, setNeedsSetup] = useState(false)
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
-    axios.get(`${API_BASE}/api/auth/setup-status`)
-      .then(({ data }) => {
-        setNeedsSetup(data.needsSetup)
+    let cancelled = false
+
+    async function check(attempt = 0) {
+      try {
+        const { data } = await axios.get(`${API_BASE}/api/auth/setup-status`)
+        if (cancelled) return
         if (data.needsSetup && location.pathname !== "/setup") {
           navigate("/setup", { replace: true })
         } else if (!data.needsSetup && location.pathname === "/setup") {
           navigate("/login", { replace: true })
         }
-      })
-      .catch(() => { /* backend unreachable — let routing handle it */ })
-      .finally(() => setChecking(false))
+        setChecking(false)
+      } catch {
+        if (cancelled) return
+        if (attempt < SETUP_RETRY_DELAYS.length) {
+          setTimeout(() => check(attempt + 1), SETUP_RETRY_DELAYS[attempt])
+        } else {
+          setError(true)
+          setChecking(false)
+        }
+      }
+    }
+
+    check()
+    return () => { cancelled = true }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (checking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center space-y-3">
+          <p className="text-sm font-medium text-gray-900">Cannot connect to backend</p>
+          <p className="text-xs text-gray-500">Make sure the server is running, then refresh the page.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-xs px-3 py-1.5 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     )
   }
