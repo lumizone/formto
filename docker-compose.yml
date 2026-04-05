@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    restart: unless-stopped
+    env_file: formto.env
+    environment:
+      POSTGRES_DB: formto
+      POSTGRES_USER: formto
+      # POSTGRES_PASSWORD is read from formto.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U formto"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: formto.env
+    environment:
+      PORT: 3001
+      HOST: 0.0.0.0
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: formto
+      DB_USER: formto
+      # DB password + JWT_SECRET + SMTP_* come from formto.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ""
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    env_file: formto.env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,259 @@
+/* Notion/Coda inspired minimalist theme */
+
+/* @import rules must come first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ============================================
+   CHILLAX FONT
+   ============================================ */
+@font-face {
+  font-family: 'Chillax';
+  src: url('./fonts/Chillax/Chillax-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('./fonts/Chillax/Chillax-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('./fonts/Chillax/Chillax-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    /* Clean white background */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
+
+    /* Cards - slightly warm white, almost no shadow */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+
+    /* Popovers */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+
+    /* Primary - subtle blue, not too saturated */
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - very light gray */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+
+    /* Muted - soft gray for backgrounds */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Accent - subtle hover state */
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 9%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders - very subtle */
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 220 70% 50%;
+
+    /* Radius - slightly smaller for cleaner look */
+    --radius: 0.375rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Change 'YourFontName' to your font name after adding @font-face above */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: -0.011em;
+  }
+
+  /* Notion-style headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: hsl(0 0% 9%);
+  }
+
+  /* Subtle selection color */
+  ::selection {
+    background-color: hsl(220 70% 50% / 0.15);
+  }
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+}
+
+/* Custom scrollbar - Notion style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 80%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 70%);
+}
+
+/* Focus styles - subtle ring */
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring) / 0.3);
+}
+
+/* React Quill editor fixes for Tailwind compatibility */
+.ql-container {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.ql-editor {
+  min-height: 200px;
+  padding: 12px 15px;
+}
+
+.ql-editor p,
+.ql-editor ol,
+.ql-editor ul,
+.ql-editor pre,
+.ql-editor blockquote,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6 {
+  margin: 0;
+  padding: 0;
+}
+
+.ql-editor p,
+.ql-editor li {
+  margin-bottom: 0.5em;
+}
+
+.ql-editor h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.ql-editor h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ql-editor h3 {
+  font-size: 1.17em;
+  margin-bottom: 0.5em;
+}
+
+.ql-editor ul,
+.ql-editor ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ql-editor a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+.ql-toolbar.ql-snow {
+  border-color: hsl(var(--border));
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+}
+
+.ql-container.ql-snow {
+  border-color: hsl(var(--border));
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+.ql-snow .ql-picker {
+  color: hsl(var(--foreground));
+}
+
+.ql-snow .ql-stroke {
+  stroke: hsl(var(--foreground));
+}
+
+.ql-snow .ql-fill {
+  fill: hsl(var(--foreground));
+}
+
+.ql-snow button:hover .ql-stroke,
+.ql-snow .ql-picker-label:hover .ql-stroke {
+  stroke: hsl(var(--primary));
+}
+
+.ql-snow button:hover .ql-fill,
+.ql-snow .ql-picker-label:hover .ql-fill {
+  fill: hsl(var(--primary));
+}
+
+.ql-snow button.ql-active .ql-stroke,
+.ql-snow .ql-picker-label.ql-active .ql-stroke {
+  stroke: hsl(var(--primary));
+}
+
+.ql-snow button.ql-active .ql-fill,
+.ql-snow .ql-picker-label.ql-active .ql-fill {
+  fill: hsl(var(--primary));
+}

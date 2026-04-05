@@ -1,0 +1,17 @@
+{$DOMAIN} {
+    # API and form submission endpoints → backend
+    handle /api/* {
+        reverse_proxy backend:3001
+    }
+    handle /f/* {
+        reverse_proxy backend:3001
+    }
+    handle /health {
+        reverse_proxy backend:3001
+    }
+
+    # Everything else → frontend SPA
+    handle {
+        reverse_proxy frontend:80
+    }
+}

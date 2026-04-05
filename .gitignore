@@ -1,0 +1,19 @@
+# ─── Secrets (never commit real credentials) ────────────────
+formto.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# ─── Dependencies ────────────────────────────────────────────
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# ─── Build output ────────────────────────────────────────────
+frontend/dist/
+
+# ─── OS / editor ─────────────────────────────────────────────
+.DS_Store
+*.swp
+.idea/
+.vscode/
