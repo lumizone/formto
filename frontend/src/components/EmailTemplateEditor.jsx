@@ -636,17 +636,17 @@ export default function EmailTemplateEditor({ formId, formName }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="border rounded-lg overflow-hidden bg-white">
+                <div className="border rounded-lg overflow-hidden bg-card">
                   {/* Email Header Preview */}
-                  <div className="bg-gray-100 px-4 py-3 border-b">
+                  <div className="bg-muted px-4 py-3 border-b">
                     <div className="space-y-1">
                       <div className="flex items-start gap-2 text-sm">
-                        <span className="font-medium text-gray-600 shrink-0">To:</span>
-                        <span className="text-gray-900">you@example.com</span>
+                        <span className="font-medium text-muted-foreground shrink-0">To:</span>
+                        <span className="text-foreground">you@example.com</span>
                       </div>
                       <div className="flex items-start gap-2 text-sm">
-                        <span className="font-medium text-gray-600 shrink-0">Subject:</span>
-                        <span className="text-gray-900">{getPreviewSubject()}</span>
+                        <span className="font-medium text-muted-foreground shrink-0">Subject:</span>
+                        <span className="text-foreground">{getPreviewSubject()}</span>
                       </div>
                     </div>
                   </div>

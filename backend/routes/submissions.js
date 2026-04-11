@@ -2,6 +2,7 @@ import sql from '../utils/db.js';
 import { emailHelpers } from '../utils/mailer.js';
 import { getSafeReplyToEmail } from '../utils/emailSecurity.js';
 import escapeHtml from 'escape-html';
+import validator from 'validator';
 
 const INTERNAL_ERROR_MESSAGE = 'Please try again later.';
 
@@ -414,7 +415,7 @@ export default async function submissionRoutes(fastify) {
 
       // Validate the email to prevent header injection
       const submitterEmail = String(rawSubmitterEmail).trim().replace(/[\r\n]/g, '');
-      if (!submitterEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      if (!validator.isEmail(submitterEmail)) {
         return reply.status(400).send({ error: 'Invalid email address found in submission data' });
       }
 

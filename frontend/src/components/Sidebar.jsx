@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useUnread } from "@/contexts/UnreadContext"
+import ThemeToggle from "@/components/ThemeToggle"
 
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -33,7 +34,7 @@ export default function Sidebar() {
     : user?.email?.[0]?.toUpperCase() || '?'
 
   return (
-    <aside className="hidden md:flex md:w-60 md:flex-col md:fixed md:inset-y-0 bg-white border-r border-border/40">
+    <aside className="hidden md:flex md:w-60 md:flex-col md:fixed md:inset-y-0 bg-background border-r border-border/40">
       <div className="flex flex-col flex-1 min-h-0">
         {/* Logo */}
         <div className="flex items-center h-14 px-4">
@@ -92,6 +93,8 @@ export default function Sidebar() {
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
+
+          <ThemeToggle className="w-full justify-start mt-1 text-muted-foreground hover:text-foreground" />
 
           <Button
             variant="ghost"

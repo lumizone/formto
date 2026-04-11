@@ -116,15 +116,17 @@ export default async function authRoutes(fastify) {
         updates.smtp_config = null;
       } else {
         // If pass is the masked placeholder, keep existing password
-        const existing = smtp_config.pass === '••••••••'
-          ? (await sql`SELECT smtp_config FROM users WHERE id = ${request.user.userId}`)[0]?.smtp_config
-          : null;
+        let existingPass = null;
+        if (smtp_config.pass === '••••••••') {
+          const [existingRow] = await sql`SELECT smtp_config FROM users WHERE id = ${request.user.userId}`;
+          existingPass = existingRow?.smtp_config?.pass ?? null;
+        }
         updates.smtp_config = JSON.stringify({
           host:   smtp_config.host?.trim()   || null,
           port:   Number(smtp_config.port)   || 587,
           secure: !!smtp_config.secure,
           user:   smtp_config.user?.trim()   || null,
-          pass:   smtp_config.pass === '••••••••' ? existing?.pass : smtp_config.pass?.trim() || null,
+          pass:   smtp_config.pass === '••••••••' ? existingPass : (smtp_config.pass?.trim() || null),
           from:   smtp_config.from?.trim()   || null,
         });
       }

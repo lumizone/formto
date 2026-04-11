@@ -29,6 +29,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png" />
     
     <title>FormTo — Dashboard</title>
+    <!-- Prevent flash of wrong theme on load -->
+    <script>
+      (function() {
+        var stored = localStorage.getItem('formto-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

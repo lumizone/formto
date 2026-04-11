@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import ThemeToggle from "@/components/ThemeToggle"
 
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -39,7 +40,7 @@ export default function Header() {
     : user?.email?.[0]?.toUpperCase() || '?'
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-border/40 md:hidden">
+    <header className="sticky top-0 z-40 bg-background border-b border-border/40 md:hidden">
       <div className="flex items-center justify-between h-14 px-4">
         <Link to="/dashboard" className="flex items-center">
           <span className="text-2xl font-bold tracking-tight" style={{ fontFamily: 'Chillax, sans-serif' }}>
@@ -80,6 +81,10 @@ export default function Header() {
               <DropdownMenuItem onClick={() => navigate("/account")}>
                 <UserCircle className="mr-2 h-4 w-4" />
                 Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <ThemeToggle className="w-full cursor-pointer" />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => { logout(); navigate('/login') }}>

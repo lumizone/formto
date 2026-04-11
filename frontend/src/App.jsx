@@ -25,6 +25,7 @@ import Account from "@/pages/Account"
 import Submissions from "@/pages/Submissions"
 import { Toaster } from "@/components/ui/toaster"
 import { UnreadProvider } from "@/contexts/UnreadContext"
+import { ThemeProvider } from "@/contexts/ThemeContext"
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ""
 
@@ -83,7 +84,7 @@ function SetupGuard({ children }) {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -91,10 +92,10 @@ function SetupGuard({ children }) {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-3">
-          <p className="text-sm font-medium text-gray-900">Cannot connect to backend</p>
-          <p className="text-xs text-gray-500">Make sure the server is running, then refresh the page.</p>
+          <p className="text-sm font-medium text-foreground">Cannot connect to backend</p>
+          <p className="text-xs text-muted-foreground">Make sure the server is running, then refresh the page.</p>
           <button
             onClick={() => window.location.reload()}
             className="text-xs px-3 py-1.5 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
@@ -114,7 +115,7 @@ function ProtectedRoute() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -128,7 +129,7 @@ function PublicRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -139,6 +140,7 @@ function PublicRoute({ children }) {
 
 function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <Toaster />
       <SetupGuard>
@@ -168,6 +170,7 @@ function App() {
         </Routes>
       </SetupGuard>
     </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

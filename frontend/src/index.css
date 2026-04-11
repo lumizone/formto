@@ -4,6 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Enable class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================
    CHILLAX FONT
    ============================================ */
@@ -73,6 +76,45 @@
     /* Radius - slightly smaller for cleaner look */
     --radius: 0.375rem;
   }
+
+  .dark {
+    /* Deep neutral background */
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
+
+    /* Cards - slightly lighter than background */
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+
+    /* Popovers */
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Primary - same blue, still readable on dark */
+    --primary: 220 80% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 95%;
+
+    /* Muted */
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 60%;
+
+    /* Accent - hover state */
+    --accent: 0 0% 16%;
+    --accent-foreground: 0 0% 95%;
+
+    /* Destructive */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders */
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 220 80% 60%;
+  }
 }
 
 @layer base {
@@ -97,7 +139,7 @@
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     letter-spacing: -0.02em;
-    color: hsl(0 0% 9%);
+    color: hsl(var(--foreground));
   }
 
   /* Subtle selection color */
@@ -143,12 +185,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(0 0% 80%);
+  background: hsl(var(--border));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(0 0% 70%);
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 
 /* Focus styles - subtle ring */

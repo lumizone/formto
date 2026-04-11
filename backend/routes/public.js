@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import path from 'path';
 import escapeHtml from 'escape-html';
 import sql, { dbHelpers } from '../utils/db.js';
 import { emailHelpers } from '../utils/mailer.js';
@@ -22,7 +23,7 @@ const ALLOWED_UPLOAD_TYPES = new Set([
 ]);
 
 function sanitizeFilename(filename = 'file') {
-  return filename.replace(/[^a-zA-Z0-9._ -]/g, '_').slice(0, 200) || 'file';
+  return path.basename(filename).replace(/[^a-zA-Z0-9._ -]/g, '_').slice(0, 200) || 'file';
 }
 
 function isBlockedByList(blocklist = [], data = {}, ip = '') {

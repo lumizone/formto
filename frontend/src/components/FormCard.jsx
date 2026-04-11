@@ -26,12 +26,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin
 
 // Deterministic color from tag string
 const TAG_COLORS = [
-  "bg-blue-50 text-blue-700 border-blue-200",
-  "bg-purple-50 text-purple-700 border-purple-200",
-  "bg-green-50 text-green-700 border-green-200",
-  "bg-amber-50 text-amber-700 border-amber-200",
-  "bg-rose-50 text-rose-700 border-rose-200",
-  "bg-cyan-50 text-cyan-700 border-cyan-200",
+  "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800",
+  "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800",
+  "bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800",
+  "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800",
+  "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-800",
+  "bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950 dark:text-cyan-300 dark:border-cyan-800",
 ]
 function tagColor(tag) {
   let hash = 0

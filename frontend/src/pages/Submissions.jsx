@@ -26,9 +26,9 @@ import { formatDate, truncate } from "@/lib/utils"
 import { useUnread } from "@/contexts/UnreadContext"
 
 const STATUS_CONFIG = {
-  new: { label: "New", color: "bg-blue-500", badge: "bg-blue-50 text-blue-700 border-blue-200" },
-  in_progress: { label: "In Progress", color: "bg-amber-400", badge: "bg-amber-50 text-amber-700 border-amber-200" },
-  resolved: { label: "Resolved", color: "bg-green-500", badge: "bg-green-50 text-green-700 border-green-200" },
+  new: { label: "New", color: "bg-blue-500", badge: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800" },
+  in_progress: { label: "In Progress", color: "bg-amber-400", badge: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800" },
+  resolved: { label: "Resolved", color: "bg-green-500", badge: "bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800" },
 }
 
 const STATUS_FILTERS = [
@@ -455,7 +455,7 @@ export default function Submissions() {
               onClick={() => handleStatusFilterChange(f.value)}
               className={`px-3 py-1 text-sm rounded-md transition-colors ${
                 statusFilter === f.value
-                  ? "bg-white text-foreground shadow-sm font-medium"
+                  ? "bg-background text-foreground shadow-sm font-medium"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
