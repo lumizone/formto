@@ -7,7 +7,7 @@
 Add one `action` attribute to any HTML form and start collecting submissions.
 No coding. No SaaS subscription. No vendor lock-in.
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](./LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](#quick-start)
 [![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white)](#)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](#)
@@ -208,7 +208,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## License
 
-[AGPL-3.0](./LICENSE) — free to use, modify, and self-host. If you distribute a modified version or run it as a public service, you must publish your changes under the same license.
+[MIT](./LICENSE) — free to use, modify, and self-host.
 
 ---
 
