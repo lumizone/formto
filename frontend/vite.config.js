@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
     port: 5174,
     proxy: {
       '/api': 'http://localhost:3001',
-      '/f':   'http://localhost:3001',
+      '/f/':  'http://localhost:3001',
     },
   },
   build: {
