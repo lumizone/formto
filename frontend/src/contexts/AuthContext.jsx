@@ -16,9 +16,12 @@ export function AuthProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(data.user);
-    } catch {
-      localStorage.removeItem(TOKEN_KEY);
-      setUser(null);
+    } catch (error) {
+      // Only an authentication rejection invalidates the established session.
+      if (error?.response?.status === 401) {
+        localStorage.removeItem(TOKEN_KEY);
+        setUser(null);
+      }
     }
   }, []);
 
@@ -35,8 +38,10 @@ export function AuthProvider({ children }) {
     const { data } = await axios.post(`${API_BASE}/api/auth/login`, { username, password });
     localStorage.setItem(TOKEN_KEY, data.token);
     setUser(data.user);
+    // Login returns basic identity only; load saved account settings as on refresh.
+    await fetchMe(data.token);
     return data.user;
-  }, []);
+  }, [fetchMe]);
 
   const loginWithToken = useCallback((token, user) => {
     localStorage.setItem(TOKEN_KEY, token);

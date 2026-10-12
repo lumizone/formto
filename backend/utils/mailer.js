@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import escapeHtml from 'escape-html';
 import dotenv from 'dotenv';
+import { normalizeSmtpConfig } from './smtpConfig.js';
 import {
   getSafeNotificationRecipients,
   getSafeReplyToEmail,
@@ -31,11 +32,13 @@ function getTransport() {
 
 // Per-request transport using user's smtp_config (or env fallback)
 export function getTransportForUser(smtpConfig) {
+  smtpConfig = normalizeSmtpConfig(smtpConfig);
   if (!smtpConfig?.host) return getTransport();
   return createTransport(smtpConfig);
 }
 
 export function getFromForUser(smtpConfig) {
+  smtpConfig = normalizeSmtpConfig(smtpConfig);
   return smtpConfig?.from || process.env.FROM_EMAIL || 'FormTo <noreply@localhost>';
 }
 

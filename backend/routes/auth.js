@@ -1,6 +1,7 @@
 import sql from '../utils/db.js';
 import { signToken, hashPassword, checkPassword } from '../utils/auth.js';
 import { getTransportForUser, getFromForUser } from '../utils/mailer.js';
+import { normalizeSmtpConfig, maskSmtpConfig } from '../utils/smtpConfig.js';
 
 const MIN_PASSWORD_LENGTH = 8;
 
@@ -71,9 +72,7 @@ export default async function authRoutes(fastify) {
     if (!user) return reply.status(404).send({ error: 'User not found' });
 
     // Mask SMTP password before returning to frontend
-    if (user.smtp_config?.pass) {
-      user.smtp_config = { ...user.smtp_config, pass: '••••••••' };
-    }
+    user.smtp_config = maskSmtpConfig(user.smtp_config);
     return { user };
   });
 
@@ -106,10 +105,10 @@ export default async function authRoutes(fastify) {
     const updates = {};
 
     if (name !== undefined) updates.name = String(name).trim() || null;
-    if (notify_email !== undefined) updates.notify_email = String(notify_email).trim().toLowerCase() || null;
-    if (telegram_bot_token !== undefined) updates.telegram_bot_token = String(telegram_bot_token).trim() || null;
-    if (telegram_chat_id !== undefined) updates.telegram_chat_id = String(telegram_chat_id).trim() || null;
-    if (slack_webhook_url !== undefined) updates.slack_webhook_url = String(slack_webhook_url).trim() || null;
+    if (notify_email !== undefined) updates.notify_email = String(notify_email ?? '').trim().toLowerCase() || null;
+    if (telegram_bot_token !== undefined) updates.telegram_bot_token = String(telegram_bot_token ?? '').trim() || null;
+    if (telegram_chat_id !== undefined) updates.telegram_chat_id = String(telegram_chat_id ?? '').trim() || null;
+    if (slack_webhook_url !== undefined) updates.slack_webhook_url = String(slack_webhook_url ?? '').trim() || null;
 
     if (smtp_config !== undefined) {
       if (smtp_config === null) {
@@ -119,9 +118,9 @@ export default async function authRoutes(fastify) {
         let existingPass = null;
         if (smtp_config.pass === '••••••••') {
           const [existingRow] = await sql`SELECT smtp_config FROM users WHERE id = ${request.user.userId}`;
-          existingPass = existingRow?.smtp_config?.pass ?? null;
+          existingPass = normalizeSmtpConfig(existingRow?.smtp_config)?.pass ?? null;
         }
-        updates.smtp_config = JSON.stringify({
+        updates.smtp_config = sql.json({
           host:   smtp_config.host?.trim()   || null,
           port:   Number(smtp_config.port)   || 587,
           secure: !!smtp_config.secure,
@@ -169,9 +168,7 @@ export default async function authRoutes(fastify) {
     );
 
     // Mask smtp pass before returning
-    if (updated?.smtp_config?.pass) {
-      updated.smtp_config = { ...updated.smtp_config, pass: '••••••••' };
-    }
+    if (updated) updated.smtp_config = maskSmtpConfig(updated.smtp_config);
     return { user: updated };
   });
 }
